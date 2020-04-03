@@ -4,12 +4,12 @@ import { receiveUsers } from '../actions/users';
 import { setAuthorizedUser } from '../actions/authorizedUser';
 
 // hardcode authenticated user
-const AUTHORIZED_ID = 'sarah_edo';
+const AUTHORIZED_ID = 'tylermcginnis';
 
 export function handleInitialData() {
   // redux thunk pattern
   return dispatch => {
-    return getInitialData().then((tweets, users) => {
+    return getInitialData().then(({ tweets, users }) => {
       dispatch(receiveTweets(tweets));
       dispatch(receiveUsers(users));
       dispatch(setAuthorizedUser(AUTHORIZED_ID));

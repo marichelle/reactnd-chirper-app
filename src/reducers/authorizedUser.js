@@ -1,6 +1,6 @@
 import { SET_AUTHORIZED_USER } from '../actions/authorizedUser';
 
-export default authorizedUser = (state = null, action) => {
+export default function authorizedUser(state = null, action) {
   switch (action.type) {
     case SET_AUTHORIZED_USER:
       return action.id;
@@ -8,4 +8,4 @@ export default authorizedUser = (state = null, action) => {
     default:
       return state;
   }
-};
+}
