@@ -6,6 +6,10 @@ class Tweet extends React.Component {
   render() {
     const { authorizedUser, tweet } = this.props;
 
+    if (tweet === null) {
+      return <p>This tweet does not exist.</p>;
+    }
+
     return (
       <div className="tweet">
         Author: {tweet.name} <br />
@@ -22,10 +26,18 @@ class Tweet extends React.Component {
 
 function mapStateToProps({ authorizedUser, tweets, users }, { id }) {
   const tweet = tweets[id];
+  const tweetFormatted = tweet
+    ? formatTweet(
+        tweet,
+        users[tweet.author],
+        authorizedUser,
+        tweets[tweet.replyingTo]
+      )
+    : null;
 
   return {
     authorizedUser,
-    tweet: formatTweet(tweet, users[tweet.author], authorizedUser)
+    tweet: tweetFormatted
   };
 }
 
