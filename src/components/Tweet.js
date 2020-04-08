@@ -1,8 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { formatTweet } from '../utils/helpers';
+import { formatDate, formatTweet } from '../utils/helpers';
+import { TiArrowBackOutline } from 'react-icons/ti';
+import { TiHeartOutline } from 'react-icons/ti';
+import { TiHeartFullOutline } from 'react-icons/ti';
 
 class Tweet extends React.Component {
+  handleLike = e => {
+    e.preventDefault();
+
+    // todo: handle like tweet
+  };
+
+  redirectToParent = e => {
+    e.preventDefault();
+
+    // todo: redirect to parent tweet
+  };
+
   render() {
     const { authorizedUser, tweet } = this.props;
 
@@ -10,15 +25,48 @@ class Tweet extends React.Component {
       return <p>This tweet does not exist.</p>;
     }
 
+    const {
+      id,
+      name,
+      parent,
+      avatar,
+      text,
+      timestamp,
+      likes,
+      hasLiked,
+      replies
+    } = tweet;
+
     return (
       <div className="tweet">
-        Author: {tweet.name} <br />
-        Avatar: {tweet.avatar} <br />
-        Date/Time: {tweet.timestamp} <br />
-        Tweet: {tweet.text} <br />
-        Replies: {tweet.replies} <br />
-        Likes: {tweet.likes}
-        <hr />
+        <img src={avatar} alt={`Avatar of ${name}`} className="avatar" />
+        <div className="tweet-info">
+          <div>
+            <span>{name}</span>
+            <div>{formatDate(timestamp)}</div>
+            {parent && (
+              <button
+                className="replying-to"
+                onClick={e => this.redirectToParent(e, parent.id)}
+              >
+                Replying to @{parent.author}
+              </button>
+            )}
+            <p>{text}</p>
+          </div>
+          <div className="tweet-icons">
+            <TiArrowBackOutline className="tweet-icon" />
+            <span>{replies !== 0 && replies}</span>
+            <button className="heart-button" onClick={this.handleLike}>
+              {hasLiked === true ? (
+                <TiHeartFullOutline className="tweet-icon" color="#e0245e" />
+              ) : (
+                <TiHeartOutline className="tweet-icon" />
+              )}
+            </button>
+            <span>{likes !== 0 && likes}</span>
+          </div>
+        </div>
       </div>
     );
   }
