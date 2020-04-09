@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { handleInitialData } from '../actions/shared';
+
 import Dashboard from './Dashboard';
+import NewTweet from './NewTweet';
 import LoadingBar from 'react-redux-loading';
 
 class App extends React.Component {
@@ -13,7 +15,7 @@ class App extends React.Component {
     return (
       <div>
         <LoadingBar />
-        {!this.props.loading && <Dashboard />}
+        {!this.props.loading && <NewTweet />}
       </div>
     );
   }
@@ -21,7 +23,7 @@ class App extends React.Component {
 
 function mapStateToProps({ authorizedUser }) {
   return {
-    loading: authorizedUser === null
+    loading: authorizedUser === null,
   };
 }
 
