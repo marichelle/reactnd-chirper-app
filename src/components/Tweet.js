@@ -1,18 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { handleToggleTweet } from '../actions/tweets';
 import { formatDate, formatTweet } from '../utils/helpers';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import { TiHeartOutline } from 'react-icons/ti';
 import { TiHeartFullOutline } from 'react-icons/ti';
 
 class Tweet extends React.Component {
-  handleLike = e => {
+  handleLike = (e) => {
     e.preventDefault();
 
-    // todo: handle like tweet
+    const { authorizedUser, dispatch, tweet } = this.props;
+
+    dispatch(
+      handleToggleTweet({
+        id: tweet.id,
+        authorizedUser,
+        hasLiked: tweet.hasLiked,
+      })
+    );
   };
 
-  redirectToParent = e => {
+  redirectToParent = (e) => {
     e.preventDefault();
 
     // todo: redirect to parent tweet
@@ -34,7 +43,7 @@ class Tweet extends React.Component {
       timestamp,
       likes,
       hasLiked,
-      replies
+      replies,
     } = tweet;
 
     return (
@@ -47,7 +56,7 @@ class Tweet extends React.Component {
             {parent && (
               <button
                 className="replying-to"
-                onClick={e => this.redirectToParent(e, parent.id)}
+                onClick={(e) => this.redirectToParent(e, parent.id)}
               >
                 Replying to @{parent.author}
               </button>
@@ -85,7 +94,7 @@ function mapStateToProps({ authorizedUser, tweets, users }, { id }) {
 
   return {
     authorizedUser,
-    tweet: tweetFormatted
+    tweet: tweetFormatted,
   };
 }
 
