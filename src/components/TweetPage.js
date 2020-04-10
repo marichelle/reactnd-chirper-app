@@ -12,11 +12,11 @@ class TweetPage extends React.Component {
       <div>
         <Tweet id={id} />
         <NewTweet replyingTo={id} />
-        {replies.length && <h3 className="center">Replies</h3>}
+        {replies.length !== 0 && <h3 className="center">Replies</h3>}
         <ul>
           {replies.map((id) => (
             <li key={id}>
-              <Tweet id={id} />
+              <Tweet id={id} reply={true} />
             </li>
           ))}
         </ul>

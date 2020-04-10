@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import { handleToggleTweet } from '../actions/tweets';
 import { formatDate, formatTweet } from '../utils/helpers';
 import { TiArrowBackOutline } from 'react-icons/ti';
@@ -21,20 +22,22 @@ class Tweet extends React.Component {
     );
   };
 
-  redirectToParent = (e) => {
+  redirectToParent = (e, id) => {
     e.preventDefault();
 
-    // todo: redirect to parent tweet
+    // redirect to parent tweet
+    this.props.history.push(`/tweet/${id}`);
   };
 
   render() {
-    const { tweet } = this.props;
+    const { tweet, reply } = this.props;
 
     if (tweet === null) {
       return <p>This tweet does not exist.</p>;
     }
 
     const {
+      id,
       name,
       parent,
       avatar,
@@ -46,13 +49,13 @@ class Tweet extends React.Component {
     } = tweet;
 
     return (
-      <div className="tweet">
+      <Link to={`/tweet/${id}`} className="tweet">
         <img src={avatar} alt={`Avatar of ${name}`} className="avatar" />
         <div className="tweet-info">
           <div>
             <span>{name}</span>
             <div>{formatDate(timestamp)}</div>
-            {parent && (
+            {parent !== null && reply === undefined && (
               <button
                 className="replying-to"
                 onClick={(e) => this.redirectToParent(e, parent.id)}
@@ -75,7 +78,7 @@ class Tweet extends React.Component {
             <span>{likes !== 0 && likes}</span>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
 }
@@ -97,4 +100,4 @@ function mapStateToProps({ authorizedUser, tweets, users }, { id }) {
   };
 }
 
-export default connect(mapStateToProps)(Tweet);
+export default withRouter(connect(mapStateToProps)(Tweet));
