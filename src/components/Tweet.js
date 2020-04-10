@@ -28,14 +28,13 @@ class Tweet extends React.Component {
   };
 
   render() {
-    const { authorizedUser, tweet } = this.props;
+    const { tweet } = this.props;
 
     if (tweet === null) {
       return <p>This tweet does not exist.</p>;
     }
 
     const {
-      id,
       name,
       parent,
       avatar,
